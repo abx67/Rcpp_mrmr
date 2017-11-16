@@ -1,3 +1,5 @@
+######This file aims at testing 'apply' function
+
 getonefea <- function(fea,tloc,f,data){
   temploc=tloc[!(tloc %in% fea)]
   tempfea=sapply(temploc,function(a,fea) c(fea,a),fea=fea)

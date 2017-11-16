@@ -3,6 +3,8 @@ library('Rcpp')
 library(devtools)
 find_rtools(T)
 
+library('R.matlab')
+
 library('mrmrINr')
 #library('inline')
 library("mrmrcr")
@@ -12,20 +14,22 @@ setwd("D:/R project/Rcpp_mrmr")
 setwd("D:/")
 
 ###constant variables###
-tloc=c(1:10)
-data=matrix(sample(seq(1,20,by=1),100,replace=TRUE),10,10)
-fea=c(1:5)
-f=sample(seq(1,3,by=1),10,replace=TRUE)
+tloc=sample(seq(1,10,by=1),10,replace=FALSE)
+data=matrix(sample(seq(1,10,by=1),10000,replace=TRUE),100,100)
+fea=rep(0,20)
+f=sample(seq(1,10,by=1),100,replace=TRUE)
 
+tempvec = c(1,2,NA,5,3,9,4,2,NA,6,8)
 vec1=sample(seq(1,40,by=1),78400,replace=TRUE)
 vec2=sample(seq(1,40,by=1),78400,replace=TRUE)
 
 ######main part######
 rm(optimal)
 sourceCpp("optimal2.cpp")
+fea=rep(0,5)
 temp=optimal(fea,f,tloc,data)
 temp
-
+Maxpos(tempvec,1)
 ###Remarks###
 rm(list=ls()) 
 rm()
@@ -37,4 +41,13 @@ rm()
 remove.packages("mrmrcr")
 
 ###Trials###
+path <- ("C:/Users/Young/Desktop")
+pathname <- file.path(path, "test1.mat")
+test <- readMat(pathname)
+
+test$answer
+temp=optimal(rep(0,20),c(test$f),tloc,test$data)
+temp
+dim(test$data)
+
 
